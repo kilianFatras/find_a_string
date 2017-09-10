@@ -35,7 +35,7 @@ def get_score(chrom, answer):
 def selection(chromosomes_list):
 	"""
 	input : chromosome population
-	select the best chromosome and random chromosome
+	select the best chromosomes and random chromosomes
 	output : selection
 	"""
 	new_chromosomes_list = chromosomes_list
@@ -93,9 +93,9 @@ def create_population(pop_size, chrom_size):
 
 def generation(population):
 	"""
-	input : list of chromosome
+	input : list of chromosomes
 	purpose : generate a new chromosome population
-	output : new list of chromosome
+	output : new list of chromosomes
 	"""
 
 	# selection
