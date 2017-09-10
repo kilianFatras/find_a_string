@@ -2,10 +2,15 @@ import random, string
 alphabet = string.ascii_letters + " !'."
 
 def get_letter():
-    return random.choice(alphabet)
+	""" Get a letter in the alphabet """
+	return random.choice(alphabet)
 
 def create_chromosome(size):
-    # TODO: Create a chromosome as a string of the right size
+    """
+	input : size of a chromosome
+	Create a chromosome as a string of the right size
+	output : chromosome
+	"""
     chromosome = ''
     for i in range(size):
         new_letter = get_letter()
@@ -13,8 +18,13 @@ def create_chromosome(size):
     return chromosome
 
 def get_score(chrom, answer):
+	"""
+	input : chromosome and the answer
+	compare the chromosome to the answer
+	output : score
+	"""
 	score = 0
-    # TODO: implement the scoring function
+    # implement the scoring function
     #  * compare the chromosome with the solution (how many character are in the correct position?)
 	for idLetter in range(len(chrom)):
 		if chrom[idLetter] == answer[idLetter]:
@@ -23,14 +33,12 @@ def get_score(chrom, answer):
 	return score
 
 def selection(chromosomes_list):
-	GRADED_RETAIN_PERCENT = 0.3     # percentage of retained best fitting individuals
-	NONGRADED_RETAIN_PERCENT = 0.2  # percentage of retained remaining individuals (randomly selected)
-	# TODO: implement the selection function
-	#  * Sort individuals by their fitting score
-	#  * Select the best individuals
-	#  * Randomly select other individuals
+	"""
+	input : chromosome population
+	select the best chromosome and random chromosome
+	output : selection
+	"""
 	new_chromosomes_list = chromosomes_list
-
 	score_list = []
 	score_max, id_max = 0, 0
 	for id_chrom in new_chromosomes_list:
@@ -56,11 +64,11 @@ def selection(chromosomes_list):
 	return selection
 
 def crossover(parent1, parent2):
-    # TODO: implement the crossover function
-    #  * Select half of the parent genetic material
-    #  * child = half_parent1 + half_parent2
-    #  * Return the new chromosome
-    #  * Genes should not be moved
+	"""
+	input : 2 parents
+	create a child from both parents
+	output : child
+	"""
 	child = ''
 	for i in range(len(parent1)):
 		if i <= len(parent1)/2:
@@ -69,8 +77,7 @@ def crossover(parent1, parent2):
 	return child
 
 def mutation(chrom):
-    # TODO: implement the mutation function
-    #  * Random gene mutation : a character is replaced
+	""" implement the mutation function of a chromosome """
 	id_mut = random.randint(0, len(chrom) - 1)
 	new_chrom = ''
 	for id_letter in range(len(chrom)):
@@ -81,11 +88,15 @@ def mutation(chrom):
 	return new_chrom
 
 def create_population(pop_size, chrom_size):
-	# use the previously defined create_chromosome(size) function
-	# TODO: create the base population
+	""" create a chromosome population """
 	return [create_chromosome(chrom_size) for i in range(pop_size)]
 
 def generation(population):
+	"""
+	input : list of chromosome
+	purpose : generate a new chromosome population
+	output : new list of chromosome
+	"""
 
 	# selection
 	# use the selection(population) function created on exercise 2
@@ -97,20 +108,23 @@ def generation(population):
 	# TODO: implement the reproduction
 	while len(children) < 5:
 		## crossover
-		parent1 = population[random.randint(0, len(population) - 1)] # randomly selected
-		parent2 = population[random.randint(0, len(population) - 1)] # randomly selected
+		parent1 = select[random.randint(0, len(select) - 1)] # randomly selected
+		parent2 = select[random.randint(0, len(select) - 1)] # randomly selected
 		# use the crossover(parent1, parent2) function created on exercise 2
 		child = crossover(parent1, parent2)
 
 		## mutation
 		# use the mutation(child) function created on exercise 2
-		child = mutation(child)
+		mut = random.randint(0,9)
+		if mut == 1: #10% that a chrom can mutate
+			child = mutation(child)
 		children.append(child)
 
 	# return the new generation
 	return select + children
 
 def algorithm(answers, answer_size):
+	""" Genetic algorithm """
 	chrom_size = answer_size
 	population_size = 20
 
@@ -121,21 +135,17 @@ def algorithm(answers, answer_size):
 	# while a solution has not been found :
 	while len(answers) == 0 :
 		## create the next generation
-		# TODO: create the next generation using the generation(population) function
+		# create the next generation using the generation(population) function
 		population = generation(population)
-
-		## display the average score of the population (watch it improve)
-		# print(get_mean_score(population), file=sys.stderr)
 
 		## check if a solution has been found
 		for chrom in population:
 			if chrom == answer:
-				print(chrom)
 				answers.append(chrom)
 
 
-    # TODO: print the solution
-	print("SOLUTION")
+    # print the solution
+	print(answers[0])
 
 if __name__ == '__main__':
 	answer = 'jNxbthOwkccnaiqpfooJmxfIBqZNuZJYMouIbHLbDRFAcaZhgExowygcfNonxmNUGYdITZJQXnqxgAEZHkaljGHGadgAxRIWArGV'
